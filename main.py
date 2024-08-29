@@ -13,8 +13,8 @@ def main():
         "======================================================================================"
     )
     logging.info("START")
-    logging.info(f"Database Source Name : {env.dbSrc}")
-    logging.info(f"Database mediasi Name : {env.dbDst}")
+    # logging.info(f"Database Source Name : {env.dbSrc}")
+    # logging.info(f"Database mediasi Name : {env.dbDst}")
     logging.info(
         "======================================================================================"
     )
