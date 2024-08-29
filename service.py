@@ -18,3 +18,6 @@ def service_mediasi():
         update_data(data, dbSrc)
     else:
         logging.info("Nothing to insert")
+        logging.info(
+            "======================================================================================"
+        )
