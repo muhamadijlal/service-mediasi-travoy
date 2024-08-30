@@ -19,8 +19,8 @@ def mapping(data):
             data[index]["kspt_id"],  # id_kspt
             data[index]["asal_gerbang_id"],  # kode_asal_gerbang
             data[index]["gol_sah"],  # golongan
-            data[index]["created_at"],  # created_at
-            data[index]["asal_gerbang_id"],  # nama gerbang asal
+            data[index]["create_at"],  # created_at
+            data[index]["nama_asal_gerbang"],  # nama gerbang asal
         ]
 
         new_array.append(result)

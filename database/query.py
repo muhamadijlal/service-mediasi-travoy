@@ -10,6 +10,9 @@ def get_data(dbSrc):
 
     if config is None:
         logging.error("Failed to load database configuration.")
+        logging.info(
+            "======================================================================================"
+        )
         return
 
     config["database"] = dbSrc
@@ -28,43 +31,55 @@ def get_data(dbSrc):
         )
     except mysql.connector.Error as mysql_connector_error:
         logging.error(f"Connection error with mysql.connector: {mysql_connector_error}")
+        logging.info(
+            "======================================================================================"
+        )
 
     try:
         cur = conn.cursor(dictionary=True)
         cur.execute(
             f"""
                 SELECT
-                    id,
-                    ruas_id,
-                    asal_gerbang_id,
-                    gerbang_id,
-                    gardu_id,
-                    tgl_lap,
-                    shift,
-                    perioda,
-                    no_resi,
-                    gol_sah,
-                    etoll_id,
-                    metoda_bayar_sah,
-                    tgl_transaksi,
-                    kspt_id,
-                    pultol_id,
-                    tarif,
-                    sisa_saldo,
-                    created_at
-                FROM jid_transaksi_deteksi
+                    a.id,
+                    a.ruas_id,
+                    a.asal_gerbang_id,
+                    b.nama_asal_gerbang,
+                    a.gerbang_id,
+                    a.gardu_id,
+                    a.tgl_lap,
+                    a.shift,
+                    a.perioda,
+                    a.no_resi,
+                    a.gol_sah,
+                    a.etoll_id,
+                    a.metoda_bayar_sah,
+                    a.tgl_transaksi,
+                    a.kspt_id,
+                    a.pultol_id,
+                    a.tarif,
+                    a.sisa_saldo,
+                    a.create_at
+                FROM jid_transaksi_deteksi a
+                INNER JOIN asal_gerbang b ON a.asal_gerbang_id = b.id_asal_gerbang
                 WHERE flag = 0
                 AND tarif != 0
+                LIMIT 500
             """
         )
 
         rows = cur.fetchall()
         logging.info(f"Success getting data. data length: {len(rows)}")
+        logging.info(
+            "======================================================================================"
+        )
 
         return rows
 
     except Exception as error:
         logging.error(f"Error while retrieving data: {error}")
+        logging.info(
+            "======================================================================================"
+        )
         return None
 
     finally:
@@ -79,6 +94,9 @@ def insert_data(data, dbDst):
 
     if config is None:
         logging.error("Failed to load database configuration.")
+        logging.info(
+            "======================================================================================"
+        )
         return
 
     config["database"] = dbDst
@@ -97,6 +115,9 @@ def insert_data(data, dbDst):
         )
     except mysql.connector.Error as mysql_connector_error:
         logging.error(f"Connection error with mysql.connector: {mysql_connector_error}")
+        logging.info(
+            "======================================================================================"
+        )
 
     try:
         cur = conn.cursor()
@@ -166,9 +187,15 @@ def insert_data(data, dbDst):
 
         conn.commit()
         logging.info(f"Success insert {len(data)} data")
+        logging.info(
+            "======================================================================================"
+        )
 
     except (Exception, mysql.connector.Error) as error:
         logging.error(error)
+        logging.info(
+            "======================================================================================"
+        )
     finally:
         if conn is not None:
             conn.close()
@@ -181,6 +208,9 @@ def update_data(data, dbSrc):
 
     if config is None:
         logging.error("Failed to load database configuration.")
+        logging.info(
+            "======================================================================================"
+        )
         return
 
     config["database"] = dbSrc
@@ -199,6 +229,9 @@ def update_data(data, dbSrc):
         )
     except mysql.connector.Error as mysql_connector_error:
         logging.error(f"Connection error with mysql.connector: {mysql_connector_error}")
+        logging.info(
+            "======================================================================================"
+        )
 
     try:
         cur = conn.cursor()
@@ -214,8 +247,14 @@ def update_data(data, dbSrc):
 
         conn.commit()
         logging.info(f"Success update {len(data)} data")
+        logging.info(
+            "======================================================================================"
+        )
     except (Exception, mysql.connector.Error) as error:
         logging.error(error)
+        logging.info(
+            "======================================================================================"
+        )
     finally:
         if conn is not None:
             conn.close()
