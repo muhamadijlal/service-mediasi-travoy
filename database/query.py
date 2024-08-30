@@ -10,9 +10,6 @@ def get_data(dbSrc):
 
     if config is None:
         logging.error("Failed to load database configuration.")
-        logging.info(
-            "======================================================================================"
-        )
         return
 
     config["database"] = dbSrc
@@ -63,17 +60,11 @@ def get_data(dbSrc):
 
         rows = cur.fetchall()
         logging.info(f"Success getting data. data length: {len(rows)}")
-        logging.info(
-            "======================================================================================"
-        )
 
         return rows
 
     except Exception as error:
         logging.error(f"Error while retrieving data: {error}")
-        logging.info(
-            "======================================================================================"
-        )
         return None
 
     finally:
@@ -88,9 +79,6 @@ def insert_data(data, dbDst):
 
     if config is None:
         logging.error("Failed to load database configuration.")
-        logging.info(
-            "======================================================================================"
-        )
         return
 
     config["database"] = dbDst
@@ -109,9 +97,6 @@ def insert_data(data, dbDst):
         )
     except mysql.connector.Error as mysql_connector_error:
         logging.error(f"Connection error with mysql.connector: {mysql_connector_error}")
-        logging.info(
-            "======================================================================================"
-        )
 
     try:
         cur = conn.cursor()
@@ -181,15 +166,9 @@ def insert_data(data, dbDst):
 
         conn.commit()
         logging.info(f"Success insert {len(data)} data")
-        logging.info(
-            "======================================================================================"
-        )
 
     except (Exception, mysql.connector.Error) as error:
         logging.error(error)
-        logging.info(
-            "======================================================================================"
-        )
     finally:
         if conn is not None:
             conn.close()
@@ -202,9 +181,6 @@ def update_data(data, dbSrc):
 
     if config is None:
         logging.error("Failed to load database configuration.")
-        logging.info(
-            "======================================================================================"
-        )
         return
 
     config["database"] = dbSrc
@@ -223,9 +199,6 @@ def update_data(data, dbSrc):
         )
     except mysql.connector.Error as mysql_connector_error:
         logging.error(f"Connection error with mysql.connector: {mysql_connector_error}")
-        logging.info(
-            "======================================================================================"
-        )
 
     try:
         cur = conn.cursor()
@@ -241,14 +214,8 @@ def update_data(data, dbSrc):
 
         conn.commit()
         logging.info(f"Success update {len(data)} data")
-        logging.info(
-            "======================================================================================"
-        )
     except (Exception, mysql.connector.Error) as error:
         logging.error(error)
-        logging.info(
-            "======================================================================================"
-        )
     finally:
         if conn is not None:
             conn.close()
