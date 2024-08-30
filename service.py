@@ -11,26 +11,17 @@ def service_mediasi():
 
     db_sources = dbSrc.split(",")
 
-    data_each_db = {}
-    data_flag = {}
-
-    for db in db_sources:
-        data = get_data(db)
+    for dbSrc in db_sources:
+        data = get_data(dbSrc)
 
         if data is not None:
-            if len(data) > 0:
-                result = mapping(data)
+            result = mapping(data)
 
-                data_each_db[db] = result
-                data_flag[db] = data
-            else:
-                logging.info("Nothing to insert")
-                logging.info(
-                    "======================================================================================"
-                )
+            insert_data(result, dbDst)
+            update_data(data, dbSrc)
 
-    for _, value in data_each_db.items():
-        insert_data(value, dbDst)
-
-    for dbName, value in data_flag.items():
-        update_data(value, dbName)
+        else:
+            logging.info("Nothing to insert")
+            logging.info(
+                "======================================================================================"
+            )
