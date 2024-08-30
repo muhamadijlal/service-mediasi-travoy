@@ -6,7 +6,7 @@ from database.config import loadConf
 def get_data(dbSrc):
     """Retrieve data from db source"""
 
-    config = loadConf("src")
+    config = loadConf()
 
     if config is None:
         logging.error("Failed to load database configuration.")
@@ -75,7 +75,7 @@ def get_data(dbSrc):
 def insert_data(data, dbDst):
     """Insert data to db destination"""
 
-    config = loadConf("dst")
+    config = loadConf()
 
     if config is None:
         logging.error("Failed to load database configuration.")
@@ -177,7 +177,7 @@ def insert_data(data, dbDst):
 def update_data(data, dbSrc):
     """Update data to db source"""
 
-    config = loadConf("src")
+    config = loadConf()
 
     if config is None:
         logging.error("Failed to load database configuration.")

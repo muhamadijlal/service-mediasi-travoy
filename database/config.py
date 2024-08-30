@@ -1,23 +1,11 @@
 import env
 
 
-def loadConf(environ):
-    match environ:
-        case "src":
-            return {
-                "host": env.ipSrc,
-                "port": env.portSrc,
-                "user": env.userSrc,
-                "password": env.passSrc,
-                "database": "",
-            }
-        case "dst":
-            return {
-                "host": env.ipDst,
-                "port": env.portDst,
-                "user": env.userDst,
-                "password": env.passDst,
-                "database": "",
-            }
-        case default:
-            return None
+def loadConf():
+    return {
+        "host": "172.16.4.8",
+        "port": 3306,
+        "user": "jmto",
+        "password": "@jmt02024!#",
+        "database": "",
+    }

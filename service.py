@@ -29,10 +29,8 @@ def service_mediasi():
                     "======================================================================================"
                 )
 
-    print(data)
+    for _, value in data_each_db.items():
+        insert_data(value, dbDst)
 
-    # for _, value in data_each_db.items():
-    #     insert_data(value, dbDst)
-
-    # for dbName, value in data_flag.items():
-    #     update_data(value, dbName)
+    for dbName, value in data_flag.items():
+        update_data(value, dbName)

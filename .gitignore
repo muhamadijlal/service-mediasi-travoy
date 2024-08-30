@@ -1,3 +1,5 @@
+config.py
+/database/config.py
 /__pycache__/*
 /__pycache__
 __pycache__
