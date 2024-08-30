@@ -1,8 +1,0 @@
-def loadConf():
-    return {
-        "host": "host",
-        "port": "port",
-        "user": "user",
-        "password": "password",
-        "database": "",
-    }
