@@ -1,6 +1,5 @@
 import os
 
-
 version = "Mediasi Travoy v.1"
 
 dbSrc = os.environ["DB_SRC"]
