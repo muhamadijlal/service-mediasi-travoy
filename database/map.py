@@ -3,7 +3,11 @@ import env
 
 def mapping(data):
     new_array = []
-    nama_cabang = env.namaCabang
+    nama_cabang = env.namaCabang.upper()
+
+    asal_gerbang_id = (
+        0 if data[index]["asal_gerbang_id"] == "" else data[index]["asal_gerbang_id"]
+    )
 
     for index, _ in enumerate(data):
         result = [
@@ -23,7 +27,7 @@ def mapping(data):
             data[index]["no_resi"],  # no resi
             data[index]["pultol_id"],  # id_pultol
             data[index]["kspt_id"],  # id_kspt
-            data[index]["asal_gerbang_id"],  # kode_gerbang_asal
+            asal_gerbang_id,  # kode_gerbang_asal
             data[index]["gol_sah"],  # golongan
             data[index]["create_at"],  # created_at
             data[index]["nama_asal_gerbang"],  # nama_gerbang_asal
