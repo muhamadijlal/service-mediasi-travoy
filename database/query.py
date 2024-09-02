@@ -43,8 +43,9 @@ def get_data(dbSrc):
                     a.id,
                     a.ruas_id,
                     a.asal_gerbang_id,
-                    b.nama_asal_gerbang,
+                    b.nama_asal_gerbang AS nama_asal_gerbang,
                     a.gerbang_id,
+                    c.nama_asal_gerbang AS gerbang_nama,
                     a.gardu_id,
                     a.tgl_lap,
                     a.shift,
@@ -60,9 +61,11 @@ def get_data(dbSrc):
                     a.sisa_saldo,
                     a.create_at
                 FROM jid_transaksi_deteksi a
-                INNER JOIN asal_gerbang b ON a.asal_gerbang_id = b.id_asal_gerbang
-                WHERE flag = 0
-                AND tarif != 0
+                LEFT JOIN asal_gerbang b ON a.asal_gerbang_id = b.id_asal_gerbang
+                LEFT JOIN asal_gerbang c ON a.gerbang_id = c.id_asal_gerbang
+                WHERE a.flag = 0
+                AND a.tarif != 0
+                ORDER BY a.tgl_transaksi ASC
                 LIMIT 500
             """
         )
@@ -126,8 +129,10 @@ def insert_data(data, dbDst):
                     INSERT INTO tx_card_toll_history(
                         tgl_report,
                         no_kartu,
+                        kode_cabang,
                         nama_cabang,
                         gerbang,
+                        nama_gerbang,
                         kode_gardu,
                         tgl_transaksi,
                         bank,
@@ -160,13 +165,17 @@ def insert_data(data, dbDst):
                         %s,
                         %s,
                         %s,
+                        %s,
+                        %s,
                         %s
                     )
                     ON DUPLICATE KEY UPDATE
                         tgl_report = VALUES(tgl_report),
                         no_kartu = VALUES(no_kartu),
+                        kode_cabang = VALUES(kode_cabang),
                         nama_cabang = VALUES(nama_cabang),
                         gerbang = VALUES(gerbang),
+                        nama_gerbang = VALUES(nama_gerbang),
                         kode_gardu = VALUES(kode_gardu),
                         tgl_transaksi = VALUES(tgl_transaksi),
                         bank = VALUES(bank),

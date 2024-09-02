@@ -14,14 +14,14 @@ def service_mediasi():
     for dbSrc in db_sources:
         data = get_data(dbSrc)
 
-        if data is not None:
+        if data is not None and len(data) > 0:
             result = mapping(data)
 
             insert_data(result, dbDst)
             update_data(data, dbSrc)
 
         else:
-            logging.info("Nothing to insert")
+            logging.info("Data empty, no service is running")
             logging.info(
                 "======================================================================================"
             )
