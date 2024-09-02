@@ -5,11 +5,13 @@ def mapping(data):
     new_array = []
     nama_cabang = env.namaCabang.upper()
 
-    asal_gerbang_id = (
-        0 if data[index]["asal_gerbang_id"] == "" else data[index]["asal_gerbang_id"]
-    )
-
     for index, _ in enumerate(data):
+        asal_gerbang_id = (
+            0
+            if data[index]["asal_gerbang_id"] == ""
+            else data[index]["asal_gerbang_id"]
+        )
+
         result = [
             data[index]["tgl_lap"],  # tanggal report
             data[index]["etoll_id"],  # nomor kartu

@@ -16,7 +16,7 @@ def service_mediasi():
             result = mapping(data)
 
             insert_data(result, dbDst)
-            update_data(data, dbSrc)
+            # update_data(data, dbSrc)
 
         else:
             logging.info("Nothing to process")

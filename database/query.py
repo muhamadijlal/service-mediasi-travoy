@@ -124,9 +124,9 @@ def insert_data(data, dbDst):
 
     try:
         cur = conn.cursor()
-
+        #  INSERT INTO tx_card_toll_history
         query = """
-                    INSERT INTO tx_card_toll_history(
+                    INSERT INTO temporary_dev(
                         tgl_report,
                         no_kartu,
                         kode_cabang,
