@@ -8,21 +8,15 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 
 def main():
-    logging.info(
-        "======================================================================================"
-    )
+    logging.info("=" * 90)
     logging.info("START")
     logging.info(f"version : {env.version}")
-    logging.info(
-        "======================================================================================"
-    )
+    logging.info("=" * 90)
 
     service_mediasi()
 
     logging.info("END")
-    logging.info(
-        "======================================================================================"
-    )
+    logging.info("=" * 90)
 
 
 def schedule_jobs():

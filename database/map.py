@@ -31,7 +31,6 @@ def mapping(data):
             data[index]["kspt_id"],  # id_kspt
             asal_gerbang_id,  # kode_gerbang_asal
             data[index]["gol_sah"],  # golongan
-            data[index]["create_at"],  # created_at
             data[index]["nama_asal_gerbang"],  # nama_gerbang_asal
         ]
 
