@@ -4,18 +4,11 @@ from mysql.connector import Error
 
 
 def load_config():
-    # return {
-    #     "host": "172.16.4.8",
-    #     "port": 3306,
-    #     "user": "jmto",
-    #     "password": "@jmt02024!#",
-    #     "database": "",
-    # }
     return {
-        "host": "localhost",
+        "host": "172.16.4.8",
         "port": 3306,
-        "user": "root",
-        "password": "",
+        "user": "jmto",
+        "password": "@jmt02024!#",
         "database": "",
     }
 

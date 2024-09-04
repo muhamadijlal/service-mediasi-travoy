@@ -23,9 +23,9 @@ def process_data(dbSrc, config1, config2):
             insert_data(result, conn2)
             update_data(data, conn1)
 
-            conn1.commit()
-            logging.info("Success Insert Data")
             conn2.commit()
+            logging.info("Success Insert Data")
+            conn1.commit()
             logging.info("Success flagging data")
             logging.info("=" * 90)
 
