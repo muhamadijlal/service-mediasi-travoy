@@ -2,14 +2,15 @@ import env
 import logging
 
 from database.map import mapping
-from mysql.connector import Error
 from database.config import load_config, create_connection
 from database.query import get_data, insert_data, update_data
+from mysql.connector import connect, Error as MySQLError
 
 
 def process_data(dbSrc, config1, config2):
     """Process data from source to destination databases."""
     data = get_data(dbSrc)
+
     if not data:
         logging.info("Nothing to process")
         logging.info("=" * 90)

@@ -125,17 +125,12 @@ def insert_data(data, conn):
                     %s
                 )
                 ON DUPLICATE KEY UPDATE
-                    tarif = VALUES(tarif),
-                    golongan = VALUES(golongan),
-                    kode_gerbang_asal = VALUES(kode_gerbang_asal),
                     gerbang = VALUES(gerbang),
-                    bank = VALUES(bank),
-                    saldo = VALUES(saldo),
+                    tgl_report = VALUES(tgl_report),
                     shift = VALUES(shift),
                     kode_gardu = VALUES(kode_gardu),
-                    periode = VALUES(periode),
-                    id_pultol = VALUES(id_pultol),
-                    id_kspt = VALUES(id_kspt)
+                    no_resi = VALUES(no_resi),
+                    no_kartu = VALUES(no_kartu)
             """
 
     cur.executemany(query, data)
