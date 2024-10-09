@@ -1,6 +1,5 @@
 import logging
-import mysql.connector
-from mysql.connector import Error
+from mysql.connector import pooling, Error as MySQLError
 
 
 def load_config():
@@ -13,16 +12,18 @@ def load_config():
     }
 
 
-def create_connection(config):
-    """Create a MySQL database connection."""
+def create_connection_pool(config):
     try:
-        return mysql.connector.connect(
+        pool = pooling.MySQLConnectionPool(
+            pool_name="mypool",
+            pool_size=5,  # Adjust based on your requirements
             host=config["host"],
             port=config["port"],
             user=config["user"],
             password=config["password"],
             database=config["database"],
         )
-    except Error as e:
-        logging.error(f"Connection error with mysql.connector: {e}")
-        raise
+        return pool
+    except MySQLError as e:
+        logging.error(f"Error creating connection pool: {e}")
+        return None

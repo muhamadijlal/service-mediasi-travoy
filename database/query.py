@@ -1,35 +1,22 @@
 import logging
-import mysql.connector
+from mysql.connector import pooling
 from database.config import load_config
 
 
-def get_data(dbSrc):
-    """Retrieve data from db source"""
-
-    config = load_config()
-
-    config["database"] = dbSrc
-
-    conn = None
+def get_data(dbSrc, pool):
+    """Retrieve data from db source using a connection from the pool"""
     logging.info("Getting data source ..")
     logging.info(f"Database source : {dbSrc}")
 
+    conn = None
     try:
-        conn = mysql.connector.connect(
-            host=config["host"],
-            port=config["port"],
-            user=config["user"],
-            password=config["password"],
-            database=config["database"],
-        )
-    except mysql.connector.Error as mysql_connector_error:
-        logging.error(f"Connection error with mysql.connector: {mysql_connector_error}")
-        logging.error("=" * 90)
+        conn = pool.get_connection()
+        config = load_config()
+        config["database"] = dbSrc
 
-    try:
         cur = conn.cursor(dictionary=True)
         cur.execute(
-            f"""
+            """
                 SELECT
                     a.id,
                     a.ruas_id,
@@ -61,9 +48,8 @@ def get_data(dbSrc):
         )
 
         rows = cur.fetchall()
-        logging.info(f"Success getting data. data length: {len(rows)}")
+        logging.info(f"Success getting data. Data length: {len(rows)}")
         logging.info("=" * 90)
-
         return rows
 
     except Exception as error:
@@ -78,76 +64,63 @@ def get_data(dbSrc):
 
 def insert_data(data, conn):
     """Insert data to db destination"""
-    logging.info("Proccess insert data..")
+    logging.info("Process insert data..")
 
-    cur = conn.cursor()
+    try:
+        cur = conn.cursor()
+        query = """
+            INSERT INTO tx_card_toll_history(
+                tgl_report,
+                no_kartu,
+                kode_cabang,
+                nama_cabang,
+                gerbang,
+                nama_gerbang,
+                kode_gardu,
+                tgl_transaksi,
+                bank,
+                shift,
+                periode,
+                tarif,
+                saldo,
+                no_resi,
+                id_pultol,
+                id_kspt,
+                kode_gerbang_asal,
+                golongan,
+                nama_gerbang_asal
+            ) VALUES (
+                %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+            )
+            ON DUPLICATE KEY UPDATE
+                gerbang = VALUES(gerbang),
+                tgl_report = VALUES(tgl_report),
+                shift = VALUES(shift),
+                kode_gardu = VALUES(kode_gardu),
+                no_resi = VALUES(no_resi),
+                no_kartu = VALUES(no_kartu)
+        """
+        cur.executemany(query, data)
+        logging.info("Data insertion successful.")
 
-    query = """
-                INSERT INTO tx_card_toll_history(
-                    tgl_report,
-                    no_kartu,
-                    kode_cabang,
-                    nama_cabang,
-                    gerbang,
-                    nama_gerbang,
-                    kode_gardu,
-                    tgl_transaksi,
-                    bank,
-                    shift,
-                    periode,
-                    tarif,
-                    saldo,
-                    no_resi,
-                    id_pultol,
-                    id_kspt,
-                    kode_gerbang_asal,
-                    golongan,
-                    nama_gerbang_asal
-                )VALUES(
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s,
-                    %s
-                )
-                ON DUPLICATE KEY UPDATE
-                    gerbang = VALUES(gerbang),
-                    tgl_report = VALUES(tgl_report),
-                    shift = VALUES(shift),
-                    kode_gardu = VALUES(kode_gardu),
-                    no_resi = VALUES(no_resi),
-                    no_kartu = VALUES(no_kartu)
-            """
-
-    cur.executemany(query, data)
+    except Exception as error:
+        logging.error(f"Error during data insertion: {error}")
+        raise
 
 
 def update_data(data, conn):
     """Update data to db source"""
-    logging.info("Proccess flaging data..")
+    logging.info("Process flagging data..")
     logging.info("=" * 90)
 
-    cur = conn.cursor()
+    try:
+        cur = conn.cursor()
+        sql_query = "UPDATE jid_transaksi_deteksi SET flag = %s WHERE id = %s"
+        update_values = [(1, x["id"]) for x in data]
 
-    # Prepare the SQL query with a placeholder
-    sql_query = "UPDATE jid_transaksi_deteksi SET flag = %s WHERE id = %s"
+        cur.executemany(sql_query, update_values)
+        logging.info("Data update successful.")
 
-    # Prepare the data for executemany
-    update_values = [(1, x["id"]) for x in data]
-
-    # Execute the query with the data
-    cur.executemany(sql_query, update_values)
+    except Exception as error:
+        logging.error(f"Error during data update: {error}")
+        raise
