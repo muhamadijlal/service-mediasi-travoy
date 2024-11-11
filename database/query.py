@@ -56,7 +56,7 @@ def get_data(dbSrc):
                 WHERE a.flag = 0
                 AND a.tarif != 0
                 ORDER BY a.tgl_transaksi ASC
-                LIMIT 500
+                LIMIT 1000
             """
         )
 
