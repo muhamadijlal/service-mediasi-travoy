@@ -1,5 +1,5 @@
 import logging
-from mysql.connector import pooling
+import mysql.connector
 from database.config import load_config
 
 
