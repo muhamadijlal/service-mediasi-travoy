@@ -22,8 +22,8 @@ def main():
 def schedule_jobs():
     scheduler = BackgroundScheduler()
 
-    # Schedule main function every 5 minutes
-    scheduler.add_job(main, "interval", minutes=5)
+    # Schedule main function every 3 minutes
+    scheduler.add_job(main, "interval", minutes=3)
 
     # Start the scheduler
     scheduler.start()

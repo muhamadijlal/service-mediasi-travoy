@@ -54,9 +54,10 @@ def get_data(dbSrc):
                 LEFT JOIN asal_gerbang b ON a.asal_gerbang_id = b.id_asal_gerbang
                 LEFT JOIN asal_gerbang c ON a.gerbang_id = c.id_asal_gerbang
                 WHERE a.flag = 0
-                AND a.tarif != 0
-                ORDER BY a.tgl_transaksi ASC
-                LIMIT 500
+                AND a.tarif != 0 
+                AND a.metoda_bayar_sah not in ('11','12','13', '28', '40', '48')
+                ORDER BY a.tgl_transaksi DESC
+                LIMIT 1000
             """
         )
 
@@ -126,24 +127,13 @@ def insert_data(data, conn):
                 )
                 ON DUPLICATE KEY UPDATE
                     tgl_report = VALUES(tgl_report),
-                    no_kartu = VALUES(no_kartu),
-                    kode_cabang = VALUES(kode_cabang),
-                    nama_cabang = VALUES(nama_cabang),
                     gerbang = VALUES(gerbang),
-                    nama_gerbang = VALUES(nama_gerbang),
                     kode_gardu = VALUES(kode_gardu),
-                    tgl_transaksi = VALUES(tgl_transaksi),
-                    bank = VALUES(bank),
                     shift = VALUES(shift),
                     periode = VALUES(periode),
-                    tarif = VALUES(tarif),
-                    saldo = VALUES(saldo),
-                    no_resi = VALUES(no_resi),
-                    id_pultol = VALUES(id_pultol),
-                    id_kspt = VALUES(id_kspt),
-                    kode_gerbang_asal = VALUES(kode_gerbang_asal),
-                    golongan = VALUES(golongan),
-                    nama_gerbang_asal = VALUES(nama_gerbang_asal)
+                    tgl_transaksi = VALUES(tgl_transaksi),
+                    no_kartu = VALUES(no_kartu),
+                    no_resi = VALUES(no_resi)  
             """
 
     cur.executemany(query, data)
