@@ -54,6 +54,7 @@ def get_data(dbSrc):
                 LEFT JOIN asal_gerbang b ON a.asal_gerbang_id = b.id_asal_gerbang
                 LEFT JOIN asal_gerbang c ON a.gerbang_id = c.id_asal_gerbang
                 WHERE a.flag = 0
+                AND a.etoll_id is NOT Null
                 AND a.tarif != 0 
                 AND a.metoda_bayar_sah not in ('11','12','13', '28', '40', '48')
                 ORDER BY a.tgl_transaksi DESC
